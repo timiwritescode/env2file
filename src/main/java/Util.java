@@ -1,6 +1,7 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 class Util {
     static String readFileToString(String filepath) throws IOException {
@@ -22,11 +23,26 @@ class Util {
         return stringBuilder.toString();
     }
 
-    static void writeStringToFile(String value, String filename, String pathToNewFile) {
+    static void writeStringToFile(String value, String filename, String pathToNewFile) throws IOException {
         // should default to current working directory
         // if pathToNewFile is not defined
         // name should default to .env.example is not provided
         // it should reject .env as a name
+
+        if (pathToNewFile == null || pathToNewFile.isEmpty()) {
+            pathToNewFile = Paths.get("")
+                    .toAbsolutePath()
+                    .toString();
+        }
+
+        Path directoryPath = Paths.get(pathToNewFile);
+        Files.createDirectories(directoryPath);
+        File file = new File(pathToNewFile + "/" + filename);
+
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file)))  {
+            bufferedWriter.write(value);
+        }
+        System.out.println(file.getAbsolutePath());
 
     }
 
