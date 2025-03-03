@@ -42,7 +42,6 @@ class Util {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file)))  {
             bufferedWriter.write(value);
         }
-        System.out.println(file.getAbsolutePath());
 
     }
 
