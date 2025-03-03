@@ -45,14 +45,17 @@ class Env2File {
         List<String> envKeys = retrieveKeysFromEnvFile();
         StringBuilder stringBuilder = new StringBuilder();
         for (String key: envKeys) {
-            stringBuilder.append(key);
+            stringBuilder.append(key + "=");
             stringBuilder.append("\n");
         }
         stringBuilder.setLength(stringBuilder.length() - 1);
 
         String outPut = stringBuilder.toString();
 
-        Util.writeStringToFile(outPut, filename, pathToSaveFIle);
+        String absolutePathOfFile = Util.writeStringToFile(outPut, filename, pathToSaveFIle);
+        int numberOfKeys = envKeys.size();
+
+        System.out.println("Wrote " + numberOfKeys + " environment keys to " + absolutePathOfFile);
     }
 
 }

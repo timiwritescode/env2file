@@ -23,7 +23,7 @@ class Util {
         return stringBuilder.toString();
     }
 
-    static void writeStringToFile(String value, String filename, String pathToNewFile) throws IOException {
+    static String  writeStringToFile(String value, String filename, String pathToNewFile) throws IOException {
         // should default to current working directory
         // if pathToNewFile is not defined
         // name should default to .env.example is not provided
@@ -42,6 +42,8 @@ class Util {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file)))  {
             bufferedWriter.write(value);
         }
+
+        return file.getAbsolutePath();
 
     }
 

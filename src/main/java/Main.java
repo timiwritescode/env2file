@@ -23,7 +23,7 @@ public class Main implements Runnable {
             env2File.writeEnvKeysToAFile("", filename);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

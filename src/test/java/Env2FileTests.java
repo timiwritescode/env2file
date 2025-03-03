@@ -27,7 +27,7 @@ class Env2FileTests {
      Path expectedOutPutFile = tempDir.resolve("envkeys.txt");
 
      String contentOfProcessedFile = Files.readString(expectedOutPutFile);
-     String expectedOutcome = "SOME_KEY\nKEY";
+     String expectedOutcome = "SOME_KEY=\nKEY=";
 
     Assertions.assertTrue(Files.exists(expectedOutPutFile));
     Assertions.assertEquals(expectedOutcome, contentOfProcessedFile);
