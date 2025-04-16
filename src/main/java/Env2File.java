@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class Env2File {
-    private  String filepath;
+    private final String filepath;
     private String fileContent;
     private static  final Pattern ENV_PATTERN = Pattern.compile("^[A-Z0-9_]+=[^=]+$");
 
@@ -75,7 +75,11 @@ class Env2File {
     }
 
 
-    public int saveEnvironmentKeysToGit(String outputFilename) throws Exception {
+    public int saveEnvironmentKeysToGit(String outputFilename) throws
+            NotFoundException,
+            NotGitRepositoryException,
+            IOException,
+            InterruptedException{
         if (!Util.isGitRepository(filepath)) {
             throw new NotGitRepositoryException("Env2File: Directory specified is not a git directory");
         }
@@ -99,7 +103,7 @@ class Env2File {
         String commitMessage = "git commit -m 'chore: add environment keys to sample file'";
         Util.runBashCommand(gitAddCommand, filepath);
         if (!hasStagedChanges(filepath)) {
-            throw new RuntimeException("En2File: There are no new Environment variables to add");
+            throw new NotFoundException("Env2File: There are no new Environment variables to add");
         }
         return Util.runBashCommand(commitMessage, filepath);
 

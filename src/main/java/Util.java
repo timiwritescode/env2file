@@ -1,12 +1,9 @@
-import exceptions.NotFoundException;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,34 +54,28 @@ class Util {
 
     static boolean isGitRepository(String path) {
         // check if current directory is a git repository
-        String directoryPath = Paths.get(path).toAbsolutePath().toString() + "/.git";
+        String directoryPath = Paths.get(path).toAbsolutePath() + "/.git";
 
         return Files.exists(Path.of(directoryPath));
     }
 
 
     static List<String> getEnvFilesPathsInADirectory(String directory) {
-        List<String> envFilesSet = Stream.of(new File(directory).listFiles())
+        return Stream.of(Objects.requireNonNull(new File(directory).listFiles()))
                 .filter(file -> !file.isDirectory() && file.getName().endsWith(".env"))
                 .map(File::getAbsolutePath)
                 .collect(Collectors.toList());
 
-        return envFilesSet;
     }
 
     static int runBashCommand(String command, String filePath) throws IOException, InterruptedException{
-        try {
-            Process process = new ProcessBuilder("bash", "-c", command)
+        Process process = new ProcessBuilder("bash", "-c", command)
                                         .redirectErrorStream(true)
                                         .directory(new File(filePath)).start();
-
-            System.out.println(new String(process.getInputStream().readAllBytes()).trim());
-
+        System.out.println(new String(process.getInputStream().readAllBytes()).trim());
 
             return process.waitFor();
-        } catch (IOException e) {
-            throw e;
-        }
+
 
     }
 }
